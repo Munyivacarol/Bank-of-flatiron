@@ -1,41 +1,24 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Transaction from "./Transaction";
 
-function TransactionsList() {
-  const [transactions, setTransactions] = useState([])
-
-  useEffect(()=>{
-    fetch("http://localhost:8001/transactions")
-      .then(res => res.json())
-      .then((data) => {
-        setTransactions(data)
-      })
-  }, [])
-
+function TransactionsList({ transactions, onDelete }) {
   return (
     <table className="ui celled striped padded table">
       <tbody>
         <tr>
-          <th>
-            <h3 className="ui center aligned header">Date</h3>
-          </th>
-          <th>
-            <h3 className="ui center aligned header">Description</h3>
-          </th>
-          <th>
-            <h3 className="ui center aligned header">Category</h3>
-          </th>
-          <th>
-            <h3 className="ui center aligned header">Amount</h3>
-          </th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Amount</th>
+          <th>Action</th>
         </tr>
-        {/* render a list of <Transaction> components here */}
-        {transactions.map((transaction) => {
-          return <Transaction key={transaction.id} transaction={transaction} />
-        })}
+        {transactions.map(transaction => (
+          <Transaction key={transaction.id} transaction={transaction} onDelete={onDelete} />
+        ))}
       </tbody>
     </table>
   );
 }
+
 
 export default TransactionsList;
